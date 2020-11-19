@@ -1,0 +1,797 @@
+javaMaster
+Java master
+***********đặt tên********
+- biến camelCase
+- đối với class nên viết hoa chữ cái đầu tiên
+*******kiểu dữ liệu*****
+
+-kiểu long và float phải có l và f
+ex: long a = 500000L;
+
+******toán tử*****
+- khi cộng nhiều kiểu dữ liệu khác nhau, java tự động nâng kiểu
+*******hằng số **********
+-đặt tên hằng số HKJHNK_JBJSJD //in  hoa
+
+*******mảng*******
+-không khuyến khích int arr[] = new int[3]; // không dùng dấu ngoặc vuông đằng sau
+*******video 39********
+- null => không trỏ đến đối tượng nào trong bộ nhớ HEAP
+- 0 là giá trị của giá trị primative
+
+**********video 47**********
+
+//chú ý trường hợp
+class cha là Person
+class con là Employee
+
+//gọi 2 đối tượng trong hàm main
+
+Employee emp = new Employee(); 
+
+Person p = new Employee(); // => đa hình
+
+//trong 2 class cha và con đều có hàm 
+public void layThongTin(){
+	System.out.println("ABC");
+}
+//Khi đang trong compile time, đối tượng p k gọi được hàm layThongTin() trong hàm con nhưng khi chạy (runtime) lại gọi được đối tượng thực thụ của nó
+
+*********video 48 **********
+
+class Object là class cha của mọi class
+
+ Object obj = new Movie(); // kiểu dữ liệu là class cha nhưng gọi đến con => đa hình, Object gọi được mọi class
+
+
+
+ **********video 59 outer class*****
+
+ public class Person{
+ 	Kid kid = new Kid();
+ 	kid.sayHello();
+ }
+
+ //outer class được khai báo bên cạnh class public, outer class luôn là default
+
+ class Kid{ 
+ 	private int tuoi;
+ 	public void sayHello(){
+ 		System.out.print("hello");
+ 	}
+ }
+
+ **************sự khác biệt giữa inner class và inner static class
+
+ +) về mặt kế thừa: inner class cho phép kế thừa trong cùng 1 class, ngoài class k dc. Còn static class cho phép kế thừa ngoài class
+ +) về khởi tạo đối tượng
+ - inner class:
+ 	Animal an = new Animal();
+ 	Animal.Dog d = new Dog();
+ 	d. hello();
+
+- inner static class:
+	Person.Kid kid = new Person.Kid();
+	kid.Hello();
+
+
+**************Exception*********
+-là lớp cha của mọi exception, luôn để cuối
+***********finally**********
+- luôn được thực hiện dù có exception xảy ra hay k
+
+***********throw/throws exception
+
+- như 1 return để đưua ra lỗi để sử dụng
+
+*********enum*******
+hỏi lại throw, enum (lai của class và hằng số)
+
+---Những thứ cần kiểm tra lại
++ is A , Has A
++ enum
++ inner class, inner static class
++ throw, throws exception
++ thread
+
+*********thread*******
+
++) thread.join() => thread nào có lệnh này sẽ hoàn thành trong thời gian đã đặt(ví dụ 500s), sau đó các thread khác mới được chạy
+
++) setPriority(1->10) //mức độ ưu tiên từ 1 đến 10. phụ thuộc vào nền tảng khác 
+
++) deamon thread là những thread chạy ở background => chạy ngầm khác với những user thread do người dùng tự định nghĩa ra
++ synchronization thread ( đồng bộ thread) => nhiều thread cùng truy xuất 1 hàm, dẫn đến sai lệch kết quả
+
+
+*****************JAVA NÂNG CAO**********
+
+- so sánh 2 đối tượng dùng hàm equal hoặc harscode(dùng number) => đã build sẵn trong inteliji
+- Java collection
++) list<Person> lstPerson = new ArrayList<Person>();
++ lstPerson.add(p1);
++ Person p = lstPerson.get(0) //trả về đối tượng ở vị trí 0
++ p.getId() // trả về id của đối tượng được lấy ra
+- linked link
+Link<Person> lstPerson = new LinkedList<Person>();
+
+lstPerson.add(person);
+lstPerson.remove(person);
+=> khác với ArrayList ở chỗ implement các hàm interface. Về hiệu suất LinkedList phù hợp trong việc thường thêm sửa xoá => hiệu suất tốt. Nếu chỉ lưu in dữ liệu dùng ArrayList
+
+- VectorList => khác ở chỗ đều là đồng bộ hoá
+=> các thread sẽ đợi nhau => bảo mật cao nhưng hiệu suất kém hơn
+
+- sắp xếp phần tử (dùng bộ collection<các thuật toán đã được built in sẵn>)
+Ex: code mẫu
+
+int num1 = 4;
+int num2 = 3;
+int num3 = 2;
+int num4 = 8;
+
+Link lst = new List();
+lst.add(num1);
+lst.add(num2);
+lst.add(num3);
+lst.add(num4);
+
+for(int num : lst){
+	System.out.println(num);
+}
+
+System.out.println("Sau khi sap xep: ");
+
+Collections.sort(lst);
+
+for(int num : lst){
+	System.out.println(num);
+}
+
+-----So sánh các đối tượng trong JAVA (implement interface COMPARABLE)
+____Thực hành_____
++) tạo 2 file Person và Main
+1. Trong file Person
+
+public class Person{
+	private String name;
+	private int Id;
+
+	public class Person(String name, int Id) implements Comparable<Person>{
+		super();
+		this.name = name;
+		this.Id = Id;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+	public String getName(){
+		return this.name;
+	}
+
+	public void setId(int Id){
+		this.Id = Id;
+	}
+	public int getId(){
+		return this.Id;
+	}
+
+	@Override
+	public int compareTo(Person obj){
+		if(this.Id > obj.getId()){
+			return 1;
+		}
+		else if(this.Id < obj.getId()){
+			return -1;
+		}
+		else{
+			return 0;
+		}
+	}
+}
+
+2. Trong file Main (trường hợp sắp xếp theo Id)
+
+	public static void Main(){
+		List<Person> lstPerson = new ArrayList<Person>();
+
+		lstPerson.add(new Person("A", 1));
+		lstPerson.add(new Person("B", 2));
+		lstPerson.add(new Person("C", 3));
+		lstPerson.add(new Person("D", 4));
+		lstPerson.add(new Person("E", 5));
+
+		System.out.println("Mang truoc khi sap xep: ");
+		for(Person person : lstPerson){
+			System.out.println(person.getId());
+		}
+		System.out.println("Mang sau khi sap xep: ");
+		Collections.sort(lstPerson);
+		for(Person person : lstPerson){
+			System.out.println(person.getId());
+		}
+	}
+2.1 (trường hợp sắp xếp theo name)
+
+*) đối với hàm override 
+@Override
+ public int compareTo(Person o){
+ 	return this.name.compareTo(o.getName()); 
+ }
+
+*******video 09 comparator****
+
+___SO sánh không cần override hay thay đổi trong lớp đối tượng___
+
+1. lớp Person
+
+// khác với comparable phải implement interface. ĐỐi với trường hợp này thì k
+
+public class Person{ 
+	private String name;
+	private int id;
+
+	public class Person(int id, String name){
+		this.id = id;
+		this.name = name;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+	public String getName(){
+		return this.name;
+	}
+	public void setId(){
+		this.id = id;
+	}
+	public int getId(){
+		return this.id;
+	}
+}
+2. lớp Main
+
+	public static void Main(String[] arg){
+		List<Person> listPerson = new ArrayList<Person>();
+		listPerson.add(new Person(1, "A"));
+		listPerson.add(new Person(2, "B"));
+		listPerson.add(new Person(3, "C"));
+		listPerson.add(new Person(4, "D"));
+		listPerson.add(new Person(5, "E"));
+
+		for(Person p : listPerson){
+			System.out.println(p);
+		}
+		System.out.println("Sau khi sap xep: ");
+		Collection.sort(listPerson, new Comparator<Person>(){ //
+	//cách1	@Override
+			public int Compare(Person o1, Person o2){
+				if(o1.getId() > o2.getId()){
+					return 1;
+				}
+				else if(o1.getId() < o2.getId()){
+					return -1;
+				}
+				else return 0;
+			}
+		}
+		for(Person p : listPerson){
+			System.out.println(p);
+		}
+	}
+	// cách 2: có thể sử dụng cách 1, hoặc tách 1 thành 1 class riêng (ưu tiên cách 1)
+
+	class myCompare{
+		if(o1.getId() > o2.getId()){
+					return 1;
+				}
+				else if(o1.getId() < o2.getId()){
+					return -1;
+				}
+				else return 0;
+			}
+	}
+
+ **********video 11 nâng cao*****
+
+ Iterator
+ - hasNext(); // kiểm tra xem có phần tử nào trong mảng??
+
+ - .next() => lấy các phần tử trong list
+ - iterator khác với forEach là iterator cho phép xoá 1 phần tử trong mảng
+ 
+_____Thực hành Iterator___
+
+public static void Main (String[] arg){
+	List<String> list = new ArrayList<String>();
+
+	list.add("A");
+	list.add("B");
+	list.add("C");
+	list.add("D");
+
+	//xoá 1 phần tử trong list
+
+	Iterator itr = list.Iterator; //chuyển kiểu dữ liệu thành Iterator
+
+	while(itr.hasNext()){
+		String s = itr.next();
+		if(s.equals("A")){
+			itr.remove(s);
+		}
+	}
+
+	for(String s : list){
+		System.out.println(s);
+	}
+}
+
+*******video 11 SET***
+- set là tập hợp các phần tử duy nhất và tồn tại duy nhất trong tập hợp đó. Không đảm bảo thứ tự nhập vào. Không sử dụng được vòng lặp for(int i) vì k có index
+
+----Thực hành SET----
+
+public static void main(String[] args){
+	Set<String> set = new HashSet<String>();
+
+	set.add("B");
+	set.add("A");
+	set.add("D");
+	set.add("A");
+	set.add("C");
+	set.add("B");
+
+	for(String str : set){
+		System.out.println(str);
+	}
+
+	Iterator itr = set.iterator();
+
+	while(itr.hasNext()){
+		String s = itr.next();
+		if(s.equals("A")){
+			itr.remove();
+		}
+	}
+
+	for(String str : set){
+		System.out.println(str);
+	}
+}
+
+****video 12 set-linkedHashSet**
+- khác với HashSet là linkedHashSet các phần tử nhập vào là theo thứ tự ban đầu, giữ nguyên
+
+___Thực hành___
+
+*) File Person:
+
+public class Person{
+	private String name;
+	private int id;
+
+	public class Person (String name, int id){
+		this.id = id;
+		this.name = name;
+	}
+
+	public String getName(){
+		return this.name;
+	}
+	public void setName(){
+		this.name = name;
+	}
+	public int getId(){
+		return this.id;
+	}
+	public void setId(){
+		this.id = id;
+	}
+
+	@Override
+	public boolean equal (Object obj){
+		return ((obj instanceOf Person) ? (obj.getId() == this.id) : false);
+	}
+	public int hashCode(){
+		return this.id;
+	}
+}
+
+
+*) File Main: //chú ý cần hàm hashCode mới có thể remove được đối tượng
+
+Set<Person> setPerson = new HashSet<Person>();
+
+setPerson.add(new Person(1));
+setPerson.add(new Person(2));
+setPerson.add(new Person(3));
+setPerson.add(new Person(4));
+
+for(Person p : setPerson){	
+	System.out.println(p);
+}
+
+System.out.println("Sau khi xoa: ");
+
+setPerson.remove(new Person(2));
+
+for(Person p : setPerson){	
+	System.out.println(p);
+}
+
+****video 13***
+- Các thao tác tương tự như các interface của set khác
+- tuy nhiên hiệu suất sẽ khác nhau: 
++ harset sẽ tốt nhất
++ treeSet sẽ thấp hơn
+=> dùng treeset để đảm bảo các phần tử được sắp xếp theo thứ tự ngày sinh của nó thay vì sắp xếp k được đảm bảo trong harset
+
+****video 14 QUEUE***
+
+=> sắp xếp thứ tự theo hàng 
+
+__Thực hành___
+
+public static void main(String[] args){
+	Queue<String> queue = new LinkedList<String>();
+
+	queue.add("A");
+	queue.add("B");
+	queue.add("V");
+	queue.add("C");
+	queue.add("N");
+	queue.add("A");
+
+	for(String s : queue){
+		System.out.println(s);
+	}
+
+	System.out.println("Sau khi remove: ");
+
+	queue.remove("A");
+	for(String s : queue){
+		System.out.println(s);
+	}
+
+}
+// => xoá phần tử theo thứ tự, "A" đầu sẽ bị xoá, Queue k đảm bảo sự duy nhất của phần tử, có thể trùng lặp phần tử
+
+****Hashmap Bài 15***
+
+=> liên quan đến key/value
+
+_Thực hành_
+
+Map<Integer, String> map = new Hashmap<Integer, String>();
+
+map.put(1, "A");
+map.put(2, "B");
+map.put(3, "C");
+map.put(4, "D");
+map.put(4, "E");
+
+map.put(null, "S");
+System.out.println(map.get(null));
+
+// có thể để key là null
+
+Set<Integer> keySet = map.keySet();
+
+for(Integer i : keySet){
+	System.out.println(i + " " + map.get(i));
+}
+
+
+System.out.println("Sau khi xoa: ");
+map.remove(1);
+map.clear(); //xoá hết phần tử
+Set<Integer> ketSet2 = map.keySet();
+
+for(Integer i : keySet2){
+	System.out.println(i + " " + map.keySet());
+}
+
+for(Entry<Integer, String> s : map.entrySet()){
+	s.getKey();
+	s.getValue();
+}
+
+
+
+*) Đối tượng trong Map
+
+public class Person{
+	private int i;
+	public class Person(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return this.id;
+	}
+
+	public void setId(){
+		this.id = id;
+	}
+}
+
+*) hàm main
+
+Map<String, Person> mapPerson = new HashMap<String, Person>();
+
+mapPerson.put("A", new Person(1));
+Person p = mapPerson.get("A"); //lấy giá trị
+
+****Bài 16 Map-treeMap
+
+=> treeMap và HashMap giống nhau về cấu trúc và cách gọi hàm. Tuy nhiên, treeMap khác HashMap ở chỗ treeMap sắp xếp các phần tử theo thứ tự tăng dần của key
+
+__Thực hành___
+
+Map <Integer, String> map = new TreeMap<Integer, String>();
+
+map.put(1, "A");
+map.put(4, "B");
+map.put(2, "C");
+
+for(EntrySet<Integer, String> e : map.entrySet()){
+	System.out.println(e.getKey() + " " + e.getValue());
+}
+
+map.remove(1); 
+
+
+***Bài 17 StringBuilder và StringBuffer
+
+StringBuilder stringBuilder = new StringBuilder();
+
+StringBuilder.append("Hello");
+StringBuilder.append("guys");
+
+String s2 = new StringBuilder.toString();
+
+System.out.println(s2);
+
+//kết quả: hello guys
+
+StringBuffer stringBuffer = new StringBuffer("Hello");
+
+StringBuffer.append("guys");
+
+System.out.println(StringBuilder.toString());
+
+=> StringBuilder và StringBuffer giúp tạo ra đối tượng trong bộ nhớ Heap ít hơn. StringBuilder nhanh hơn StringBuffer vì StringBuilder đồng bộ hoá thread. mục đích của 2 hàm dùng để nối chuỗi, nên dùng StringBuilder
+
+
+***Bài 18 Serializable Object
+
+=> chuyển 1 đối tượng thành String
+
+___Thực hành___
+
+
+public class Person implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+// khi lưu ra file phải chuyển đối tượng thành String, cần 1 ID để tương ứng hỗ trợ việc chuyển qua lại. so sánh phiên bản khi chuyển qua lại giữa String và Object
+
+	private int id;
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return this.id;
+	}
+
+
+//throw ra 2 exception, cái đầu là khi chuyển từ Object sang String, cái 2 là chuyển ngược lại
+
+	public static void Main(String[] args) throws IOException, ClassNotFoundException {
+		Person p = new Person(1);
+
+		File file = new File("demo.text");
+
+		if(!file.exist()){
+			file.createNewFile();
+		}
+
+		FileOutputStream fileOutputStream = new FileOutputStream(file); // lưu file
+
+		ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream); //lưu đối tượng trong file
+
+		objectOutputStream.writeObject(p);
+
+		objectOutputStream.close();
+		fileOutputStream.close();
+
+		//chuyển String thành Object(chuyển ngược lại)
+
+		FileInputStream fileInputStream = new FileInputStream(file);
+		ObjectInputStream inputStream = new ObjectInputStream(fileInputStream);
+
+		Person p1 = (Person) inputStream.readObject();
+		System.out.println(p1.getId());
+	}
+}
+
+**bài 19 Lưu vào Object
+
+___Thực hành___
+
+
+1) file Person
+
+public class Person implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
+	private transient int id; 
+	//từ khoá transient không lưu id
+
+	private String name;
+
+	public class Person(int id, String name){
+		this.id = id;
+		this.name = name;
+	}
+
+	public void setName(String name){
+		this.name = name;
+	}
+	public String getName(){
+		return this.name;
+	}
+
+	public void setId(int id){
+		this.id = id;
+	}
+
+	public int getId(){
+		return this.id;
+	}
+}
+
+2) File main
+
+public static void Main(String[] args) throws IDException, ClassNotFoundException {
+	Person p1 = new Person(1, "A");
+
+	File file = new File("demo.txt");
+
+	if(!file.exists()){
+		file.createNewFile();
+	}
+
+	FileOutputStream fileOutputStream = new FileOutputStream(file);
+	ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+
+	objectOutputStream.writeObject(p1);
+
+	objectOutputStream.close();
+	fileOutputStream.close();
+
+	System.out.println("luu thanh cong");
+
+	FileInputStream fileInputStream = new FileInputStream(file);
+	ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+
+	Person p = (Person) readObject();
+
+	System.out.println(p.getId() + " " + p.getName());
+}
+
+***video 20 Định dạng số
+
+_Thực hành_
+//dấu phẩy phân cách thập phân, dấu chấm phân cách các hàng(đơn vị, chục, trăm)
+
+public static void main(String[] args){
+	long l = 123456789;
+	double k = 1234567.890123;
+
+	//định dạng theo tên vùng miền
+
+	Locale locale = new Locale("vi", "VN"); 
+	NumberFormat format = NumberFormat.getInstance();
+
+	//Định dạng các số sau dấu phẩy
+	format.setMaximumFractionDigits(4); //tối đa
+	format.setMinimumFractionDigits(0); //tối thiểu
+
+	//làm tròn các số
+	format.setRoundingMode(RoundingMode.HALF_UP); //tròn lên
+	format.setRoundingMode(RoundingMode.HALF_DOWN);
+	//tròn xuống
+
+
+	System.out.println(format.format(l));
+	System.out.println(format.format(k));
+
+
+	//format theo định dạng
+	String pattern = "###,###.##"
+
+	DecimalFormat decimalFormat = new DecimalFormat(pattern)
+
+	//có thể dùng DecimalFormat theo locale
+	DecimalFormat decimalFormat = (DecimalFormat)DecimalFormat.getInstance(locale); // phải ép kiểu
+
+	//chuyển ký hiệu xen giữa các số
+	DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+	decimalFormatSymbols.setGroupSeparator('-'); //set ký hiệu ngăn giữa các khoảng đơn vị là dấu gạch ngang
+
+	decimalFormatSymbols.setDecimalSeparator(',');//set ký hiệu ngăn giữa phần thập phân 
+
+	decimalFormat.setDecimalFormatSymbols(decimalFormatSymbols);
+
+	decimalFormat.setGroupingSize(4); 
+	// set số lượng các số được ngăn cách trong mỗi dấu. Ví dụ 1334,6256.15
+
+	System.out.println(decimalFormat.format(l));
+	System.out.println(decimalFormat.format(k));
+}
+
+**bài 21 định dạng tiền tệ
+__Thực hành_
+
+public static void Main(String[] args){
+	double l = 123456789.67;
+
+	Locale locale = new Locale("vi", "VN");
+	NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(locale);
+
+	moneyFormat.setRoundingMode(RoundingMode, HALF_UP); // làm tròn
+
+	System.out.println(moneyFormat.format(l));
+
+	//Cách khác
+
+	DecimalFormat moneyFormat2 = (DecimalFormat)DecimalFormat.getCurrencyInstance(locale);
+
+	//định dạng ký hiệu phân cách
+	DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols();
+
+	formatSymbols.setGroupingSeparator('-');
+	formatSymbols.setCurrencySymbols('vnd');
+
+	moneyFormat2.setDecimalFormatSymbols(formatSymbols);
+
+	System.out.println(moneyFormat2.format(l));
+
+	//format %
+
+	NumberFormat percentFormat = NumberFormat.getPercentInstance();
+
+	System.out.println(percentFormat.format(0.1));
+}
+
+*video 22 Định dạng ngày trong Java
+
+
+__Thực hành ___
+
+
+public static void Main(String[] args){
+	
+	String pattern = "dd-MM-yyyy";
+
+	String pattern2= "dd-MM-yyyy hh:mm:ss";
+
+	String pattern3= "dd-MM-yyyy hh:mm:ss a";
+
+	String pattern4= "dd-MM-yyyy hh:mm:ss a";
+
+	SimpleDateFormat dateFormat = new SimpleDateFormat(pattern);
+
+	SimpleDateFormat dateFormat = new SimpleDateFormat(pattern2);
+
+	SimpleDateFormat dateFormat = new SimpleDateFormat(pattern3, new Locale("vi", "VN"));
+
+	SimpleDateFormat dateFormat = new SimpleDateFormat(pattern4, new Locale("vi", "VN"));
+
+
+	System.out.println(dateFormat.format(new Date())); //in ra ngày hiện tại theo pattern được định dạng bên trên
+}
